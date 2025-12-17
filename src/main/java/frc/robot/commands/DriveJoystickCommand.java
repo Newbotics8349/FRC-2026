@@ -56,18 +56,20 @@ public class DriveJoystickCommand extends Command {
         xSpeed = xLimiter.calculate(xSpeed) * Constants.DriveConstants.kTeleOpMaxMetersPerSecond;
         ySpeed = yLimiter.calculate(ySpeed) * Constants.DriveConstants.kTeleOpMaxMetersPerSecond;    
         rotSpeed = rotLimiter.calculate(rotSpeed) * Constants.DriveConstants.kTeleOpMaxAngularMetersPerSecond;
-        SmartDashboard.putNumber("xSpeed", xSpeed);
-        SmartDashboard.putNumber("ySpeed", ySpeed);
-        SmartDashboard.putNumber("rotSpeed", rotSpeed);
-        SmartDashboard.putBoolean("fieldOriented", fieldOrientedFunction.get());
+
         
         // Make chassis speeds
         ChassisSpeeds chassisSpeeds;
-        if (!fieldOrientedFunction.get()) {
-            chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotSpeed, swerveSubsystem.getRotation2d());
-        } else {
+        // if (!fieldOrientedFunction.get()) {
+        //     chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotSpeed, swerveSubsystem.getRotation2d());
+        // } else {
             chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, rotSpeed);
-        }
+        // }
+
+        SmartDashboard.putNumber("x-chassis", chassisSpeeds.vxMetersPerSecond);
+        SmartDashboard.putNumber("y-chassis", chassisSpeeds.vyMetersPerSecond);
+        SmartDashboard.putNumber("rot-chassis", chassisSpeeds.omegaRadiansPerSecond);
+        
 
         // Send to subsystem
         swerveSubsystem.setModuleStates(chassisSpeeds);

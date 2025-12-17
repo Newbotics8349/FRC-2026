@@ -22,10 +22,10 @@ public class SwerveSubsystem extends SubsystemBase {
     private final SwerveDriveKinematics m_kinematics;
 
     private final SwerveModule[] swerveModules = {
-        new SwerveModule(Constants.ModuleConstants.FrontLeft.kDriveMotorId, Constants.ModuleConstants.FrontLeft.kTurnMotorId, Constants.ModuleConstants.FrontLeft.kTurnEncoderId),
-        new SwerveModule(Constants.ModuleConstants.FrontRight.kDriveMotorId, Constants.ModuleConstants.FrontRight.kTurnMotorId, Constants.ModuleConstants.FrontRight.kTurnEncoderId), 
-        new SwerveModule(Constants.ModuleConstants.BackRight.kDriveMotorId, Constants.ModuleConstants.BackRight.kTurnMotorId, Constants.ModuleConstants.BackRight.kTurnEncoderId), 
-        new SwerveModule(Constants.ModuleConstants.BackLeft.kDriveMotorId, Constants.ModuleConstants.BackLeft.kTurnMotorId, Constants.ModuleConstants.BackLeft.kTurnEncoderId), 
+        new SwerveModule(Constants.ModuleConstants.FrontLeft.kDriveMotorId, Constants.ModuleConstants.FrontLeft.kTurnMotorId, Constants.ModuleConstants.FrontLeft.kTurnEncoderId, Constants.ModuleConstants.FrontLeft.driveInverted),
+        new SwerveModule(Constants.ModuleConstants.FrontRight.kDriveMotorId, Constants.ModuleConstants.FrontRight.kTurnMotorId, Constants.ModuleConstants.FrontRight.kTurnEncoderId, Constants.ModuleConstants.FrontRight.driveInverted), 
+        new SwerveModule(Constants.ModuleConstants.BackRight.kDriveMotorId, Constants.ModuleConstants.BackRight.kTurnMotorId, Constants.ModuleConstants.BackRight.kTurnEncoderId, Constants.ModuleConstants.BackRight.driveInverted), 
+        new SwerveModule(Constants.ModuleConstants.BackLeft.kDriveMotorId, Constants.ModuleConstants.BackLeft.kTurnMotorId, Constants.ModuleConstants.BackLeft.kTurnEncoderId, Constants.ModuleConstants.BackLeft.driveInverted), 
     };
 
     private final StructArrayPublisher<SwerveModuleState> publisher;
@@ -73,7 +73,6 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public Rotation2d getRotation2d() {
-        // TODO finish
         return gyro.getRotation2d();
     }
 

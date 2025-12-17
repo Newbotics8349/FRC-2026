@@ -6,7 +6,10 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -22,24 +25,50 @@ public class SwerveModule extends SubsystemBase {
     CANcoder turnEncoder;
     PIDController turnPID;
     /** Creates a new SwerveModule. */
-    public SwerveModule(int driveMotorId, int turnMotorId, int turnEncoderId) {
+    public SwerveModule(int driveMotorId, int turnMotorId, int turnEncoderId, boolean driveInverted) {
         driveMotor = new SparkMax(driveMotorId, MotorType.kBrushless);
         turnMotor = new SparkMax(turnMotorId, MotorType.kBrushless);
+        SparkMaxConfig config = new SparkMaxConfig();
+        config.inverted(true);
+        turnMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+        config = new SparkMaxConfig();
+        config.inverted(driveInverted);
+        driveMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         turnEncoder = new CANcoder(turnEncoderId);
         turnPID = new PIDController(Constants.ModuleConstants.kP, Constants.ModuleConstants.kI, Constants.ModuleConstants.kD);
-        SmartDashboard.putData(turnPID);
+    }
+
+    private double closestAngle(double a, double b) {
+        double dir = (b % (Math.PI * 2)) - (a % (Math.PI * 2));
+        if (Math.abs(dir) > Math.PI) {
+            dir = -(Math.signum(dir) * 2 * Math.PI) + dir;
+        }
+
+        return dir;
     }
 
     public void setModuleState(SwerveModuleState speeds) {
         Rotation2d curAngle = getAngle();
-        speeds.optimize(curAngle);
-        speeds.speedMetersPerSecond *= speeds.angle.minus(curAngle).getCos();
-        SmartDashboard.putNumber("speedMetersPerSecond", speeds.speedMetersPerSecond);
+        // speeds.optimize(curAngle);
+        // SmartDashboard.putNumber("module-rot-opt-" + driveMotor.getDeviceId(), speeds.angle.getDegrees());
+        // speeds.speedMetersPerSecond *= speeds.angle.minus(curAngle).getCos();
         this.driveMotor.set(speeds.speedMetersPerSecond);
-        this.turnMotor.set(turnPID.calculate(getAngle().getDegrees(), speeds.angle.getDegrees()));
-        SmartDashboard.putNumber("encoder", getAngle().getDegrees());
-        SmartDashboard.putNumber("turnPID" + turnEncoder, turnPID.calculate(getAngle().getDegrees(), speeds.angle.getDegrees()));
+        // SmartDashboard.putData("pid" + driveMotor.getDeviceId(), turnPID);
+        // SmartDashboard.putNumber("calculate-" + turnMotor.getDeviceId(), turnPID.calculate(getAngle().getRadians(), speeds.angle.getRadians()));
+        // SmartDashboard.putNumber("setpoint-" + turnMotor.getDeviceId(), speeds.angle.getRadians());
+        SmartDashboard.putNumber("setpoint-" + turnMotor.getDeviceId(), closestAngle(curAngle.getRadians(), speeds.angle.getRadians()));
+        SmartDashboard.putData(turnPID);
+        double setpointAngle = closestAngle(curAngle.getRadians(), speeds.angle.getRadians());
+        double setpointAngleFlipped = closestAngle(curAngle.getRadians(), speeds.angle.getRadians() + Math.PI);
+        if (Math.abs(setpointAngle) <= Math.abs(setpointAngleFlipped)) {
+            this.driveMotor.set(Math.abs(this.driveMotor.get()));
+            this.turnMotor.set(turnPID.calculate(getAngle().getRadians(), curAngle.getRadians() + setpointAngle));
+        } else {
+            this.driveMotor.set(Math.abs(this.driveMotor.get()) * -1);
+            this.turnMotor.set(turnPID.calculate(getAngle().getRadians(), curAngle.getRadians() + setpointAngleFlipped));
+        }
     }
 
     public Rotation2d getAngle() {
