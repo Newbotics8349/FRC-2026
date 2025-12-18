@@ -8,7 +8,6 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -65,10 +64,6 @@ public class DriveJoystickCommand extends Command {
         } else {
             chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, rotSpeed);
         }
-
-        SmartDashboard.putNumber("x-chassis", chassisSpeeds.vxMetersPerSecond);
-        SmartDashboard.putNumber("y-chassis", chassisSpeeds.vyMetersPerSecond);
-        SmartDashboard.putNumber("rot-chassis", chassisSpeeds.omegaRadiansPerSecond);
         
 
         // Send to subsystem

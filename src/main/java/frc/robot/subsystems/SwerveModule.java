@@ -14,7 +14,6 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -52,8 +51,6 @@ public class SwerveModule extends SubsystemBase {
     public void setModuleState(SwerveModuleState speeds) {
         Rotation2d curAngle = getAngle();
         this.driveMotor.set(speeds.speedMetersPerSecond);
-        SmartDashboard.putNumber("setpoint-" + turnMotor.getDeviceId(), closestAngle(curAngle.getRadians(), speeds.angle.getRadians()));
-        SmartDashboard.putData(turnPID);
         double setpointAngle = closestAngle(curAngle.getRadians(), speeds.angle.getRadians());
         double setpointAngleFlipped = closestAngle(curAngle.getRadians(), speeds.angle.getRadians() + Math.PI);
         if (Math.abs(setpointAngle) <= Math.abs(setpointAngleFlipped)) {
