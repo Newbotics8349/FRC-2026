@@ -60,11 +60,11 @@ public class DriveJoystickCommand extends Command {
         
         // Make chassis speeds
         ChassisSpeeds chassisSpeeds;
-        // if (!fieldOrientedFunction.get()) {
-        //     chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotSpeed, swerveSubsystem.getRotation2d());
-        // } else {
+        if (!fieldOrientedFunction.get()) {
+            chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotSpeed, swerveSubsystem.getRotation2d());
+        } else {
             chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, rotSpeed);
-        // }
+        }
 
         SmartDashboard.putNumber("x-chassis", chassisSpeeds.vxMetersPerSecond);
         SmartDashboard.putNumber("y-chassis", chassisSpeeds.vyMetersPerSecond);

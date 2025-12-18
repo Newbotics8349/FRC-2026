@@ -51,13 +51,7 @@ public class SwerveModule extends SubsystemBase {
 
     public void setModuleState(SwerveModuleState speeds) {
         Rotation2d curAngle = getAngle();
-        // speeds.optimize(curAngle);
-        // SmartDashboard.putNumber("module-rot-opt-" + driveMotor.getDeviceId(), speeds.angle.getDegrees());
-        // speeds.speedMetersPerSecond *= speeds.angle.minus(curAngle).getCos();
         this.driveMotor.set(speeds.speedMetersPerSecond);
-        // SmartDashboard.putData("pid" + driveMotor.getDeviceId(), turnPID);
-        // SmartDashboard.putNumber("calculate-" + turnMotor.getDeviceId(), turnPID.calculate(getAngle().getRadians(), speeds.angle.getRadians()));
-        // SmartDashboard.putNumber("setpoint-" + turnMotor.getDeviceId(), speeds.angle.getRadians());
         SmartDashboard.putNumber("setpoint-" + turnMotor.getDeviceId(), closestAngle(curAngle.getRadians(), speeds.angle.getRadians()));
         SmartDashboard.putData(turnPID);
         double setpointAngle = closestAngle(curAngle.getRadians(), speeds.angle.getRadians());
