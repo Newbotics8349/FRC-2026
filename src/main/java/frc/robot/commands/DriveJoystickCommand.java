@@ -17,17 +17,19 @@ public class DriveJoystickCommand extends Command {
     private final SwerveSubsystem swerveSubsystem;
     private final Supplier<Double> xSpeedFunction, ySpeedFunction, rotSpeedFunction;
     private final Supplier<Boolean> fieldOrientedFunction;
+    private final Supplier<Double> slowFunction;
     private final SlewRateLimiter xLimiter, yLimiter, rotLimiter;
     /** Creates a new DriveJoystickCommand. */
     public DriveJoystickCommand(SwerveSubsystem swerveSubsystem,
             Supplier<Double> xSpeedFunction, Supplier<Double> ySpeedFunction, Supplier<Double> rotSpeedFunction,
-            Supplier<Boolean> fieldOrientedFunction) {
+            Supplier<Boolean> fieldOrientedFunction, Supplier<Double> slowFunction) {
         // Use addRequirements() here to declare subsystem dependencies.
         this.swerveSubsystem = swerveSubsystem;
         this.xSpeedFunction = xSpeedFunction;
         this.ySpeedFunction = ySpeedFunction;
         this.rotSpeedFunction = rotSpeedFunction;
         this.fieldOrientedFunction = fieldOrientedFunction;
+        this.slowFunction = slowFunction;
         this.xLimiter = new SlewRateLimiter(Constants.DriveConstants.kTeleOpMaxAcceleration);
         this.yLimiter = new SlewRateLimiter(Constants.DriveConstants.kTeleOpMaxAcceleration);
         this.rotLimiter = new SlewRateLimiter(Constants.DriveConstants.kTeleOpMaxAngularAcceleration);
@@ -56,6 +58,10 @@ public class DriveJoystickCommand extends Command {
         ySpeed = yLimiter.calculate(ySpeed) * Constants.DriveConstants.kTeleOpMaxMetersPerSecond;    
         rotSpeed = rotLimiter.calculate(rotSpeed) * Constants.DriveConstants.kTeleOpMaxAngularMetersPerSecond;
 
+        // Slow function
+        double slowVal = Math.pow(4, slowFunction.get());
+        xSpeed /= slowVal;
+        ySpeed /= slowVal;
         
         // Make chassis speeds
         ChassisSpeeds chassisSpeeds;

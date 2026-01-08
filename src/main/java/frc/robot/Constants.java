@@ -13,7 +13,7 @@ public final class Constants {
 		public static final double kTeleOpMaxAcceleration = 5;
 		public static final double kTeleOpMaxAngularAcceleration = 3;
         public static final double kTeleOpMaxMetersPerSecond = 0.2;
-        public static final double kTeleOpMaxAngularMetersPerSecond = 0.1;
+        public static final double kTeleOpMaxAngularMetersPerSecond = 0.2;
 
         public static final int kGyroId = 0;
     }
@@ -51,11 +51,12 @@ public final class Constants {
     public static final class ControllerConstants {
         public static final int kDriverController = 0;
 
-        public static final int kDriverYAxis = 1;
         public static final int kDriverXAxis = 0;
+        public static final int kDriverYAxis = 1;
+        public static final int kDriverSlowAxis = 3;
         public static final int kDriverRotAxis = 4;
 
-        public static final int kDriverFieldOrientedButtonId = 1;
+        public static final int kDriverFieldOrientedButtonId = 5;
         public static final int kDriverResetGyroId = 2;
 
         public static final double kDeadband = 0.05;

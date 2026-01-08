@@ -24,7 +24,8 @@ public class RobotContainer {
 			() -> driverController.getRawAxis(Constants.ControllerConstants.kDriverYAxis),
 			() -> driverController.getRawAxis(Constants.ControllerConstants.kDriverXAxis),
 			() -> driverController.getRawAxis(Constants.ControllerConstants.kDriverRotAxis),
-			() -> driverController.a().getAsBoolean()));
+			() -> driverController.button(Constants.ControllerConstants.kDriverFieldOrientedButtonId).getAsBoolean(),
+			() -> driverController.getRawAxis(Constants.ControllerConstants.kDriverSlowAxis)));
 	}
 
 	private void configureBindings() {
