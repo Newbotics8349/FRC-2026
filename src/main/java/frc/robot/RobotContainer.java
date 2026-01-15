@@ -6,34 +6,15 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.DriveJoystickCommand;
-import frc.robot.subsystems.SwerveSubsystem;
 
 public class RobotContainer {
-	private SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+  public RobotContainer() {
+    configureBindings();
+  }
 
-	// public XboxController driverController = new XboxController(Constants.ControllerConstants.kDriverController);
-	public CommandXboxController driverController = new CommandXboxController(Constants.ControllerConstants.kDriverController);
+  private void configureBindings() {}
 
-	public RobotContainer() {
-		configureBindings();
-
-		swerveSubsystem.setDefaultCommand(new DriveJoystickCommand(
-			swerveSubsystem,
-			() -> driverController.getRawAxis(Constants.ControllerConstants.kDriverYAxis),
-			() -> driverController.getRawAxis(Constants.ControllerConstants.kDriverXAxis),
-			() -> driverController.getRawAxis(Constants.ControllerConstants.kDriverRotAxis),
-			() -> driverController.button(Constants.ControllerConstants.kDriverFieldOrientedButtonId).getAsBoolean(),
-			() -> driverController.getRawAxis(Constants.ControllerConstants.kDriverSlowAxis)));
-	}
-
-	private void configureBindings() {
-		driverController.x().onTrue(Commands.runOnce(() -> swerveSubsystem.zeroHeading(), swerveSubsystem));
-		driverController.button(Constants.ControllerConstants.kDriverResetGyroId).onTrue(Commands.runOnce(() -> swerveSubsystem.zeroHeading(), swerveSubsystem));
-	}
-
-	public Command getAutonomousCommand() {
-		return Commands.print("No autonomous command configured");
-	}
+  public Command getAutonomousCommand() {
+    return Commands.print("No autonomous command configured");
+  }
 }
