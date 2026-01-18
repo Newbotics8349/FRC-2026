@@ -62,4 +62,9 @@ public final class Constants {
         public static final double kDeadband = 0.05;
     }
 
+    public static final class PWMConstants {
+        public static final int kLedPort = 0;
+    }
+
+    public static final int numLeds = 60;
 }
