@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.ctre.phoenix6.CANBus;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -18,6 +19,7 @@ import frc.robot.Constants;
 
 public class SwerveSubsystem extends SubsystemBase {
     private final Pigeon2 gyro;
+    private final CANBus canBus;
 
     private final SwerveDriveKinematics m_kinematics;
 
@@ -33,7 +35,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
     /** Creates a new SwerveSubsystem. */
     public SwerveSubsystem() {
-        gyro = new Pigeon2(Constants.DriveConstants.kGyroId, "rio");
+        canBus = new CANBus("rio");
+        gyro = new Pigeon2(Constants.DriveConstants.kGyroId, canBus);
 
         Translation2d m_frontLeftLocation = Constants.DriveConstants.kFrontLeftLocation;
         Translation2d m_frontRightLocation = Constants.DriveConstants.kFrontRightLocation;
