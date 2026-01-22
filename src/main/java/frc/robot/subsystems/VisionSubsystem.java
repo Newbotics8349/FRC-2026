@@ -17,7 +17,7 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class VisionSubsystem extends SubsystemBase {
 	/** Creates a new VisionSubsystem. */
-	private final PhotonCamera camera = new PhotonCamera("MainCamera");
+	private final PhotonCamera camera = new PhotonCamera("Main Camera");
 	private PhotonPipelineResult result;
 	private LEDSubsystem m_LedSubsystem;
 
@@ -26,6 +26,7 @@ public class VisionSubsystem extends SubsystemBase {
 	}
 
 	public boolean hasTargets() {
+		if (result == null) return false;
 		return result.hasTargets();
 	}
 
@@ -57,6 +58,7 @@ public class VisionSubsystem extends SubsystemBase {
 		// This method will be called once per scheduler run
 		List<PhotonPipelineResult> unread = camera.getAllUnreadResults();
 		if (unread.size() > 0) result = unread.get(unread.size() - 1);
-		CommandScheduler.getInstance().schedule(m_LedSubsystem.setColour(result.hasTargets() ? 0 : 255, result.hasTargets() ? 255 : 0, 0)	);
+		CommandScheduler.getInstance().schedule(m_LedSubsystem.setColour(hasTargets() ? 0 : 255, hasTargets() ? 255 : 0, 0));
+		System.out.println(getPoseToTarget(21));
 	}
 }

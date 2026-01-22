@@ -20,6 +20,7 @@ public class LEDSubsystem extends SubsystemBase {
 		m_led = new AddressableLED(Constants.PWMConstants.kLedPort);
 
 		m_led.setLength(Constants.numLeds);
+		m_led.start();
 	}
 
 	public Command setColour(int red, int green, int blue) {
