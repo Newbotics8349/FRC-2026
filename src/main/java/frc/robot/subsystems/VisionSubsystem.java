@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -31,6 +32,7 @@ public class VisionSubsystem extends SubsystemBase {
 	}
 
 	public List<PhotonTrackedTarget> getTargets() {
+		if (result == null) return null;
 		if (result.hasTargets()) {
 			return result.getTargets();
 		}
@@ -38,16 +40,20 @@ public class VisionSubsystem extends SubsystemBase {
 	}
 
 	public PhotonTrackedTarget getSpecificTarget(int id) {
+		if (getTargets() == null) return null;
 		for (PhotonTrackedTarget target : getTargets()) {
 			if (target.getFiducialId() == id) return target;
 		}
 		return null;
 	}
 
-	public Transform3d getPoseToTarget(int id) {
+	public Transform3d getTransformToTarget(int id) {
 		PhotonTrackedTarget target = getSpecificTarget(id);
 		if (target != null) {
 			Transform3d distance = target.bestCameraToTarget;
+			SmartDashboard.putNumber("target-x", distance.getX());
+			SmartDashboard.putNumber("target-y", distance.getY());
+			SmartDashboard.putNumber("rotation", distance.getRotation().getZ());
 			return distance;
 		}
 		return null;
@@ -59,6 +65,10 @@ public class VisionSubsystem extends SubsystemBase {
 		List<PhotonPipelineResult> unread = camera.getAllUnreadResults();
 		if (unread.size() > 0) result = unread.get(unread.size() - 1);
 		CommandScheduler.getInstance().schedule(m_LedSubsystem.setColour(hasTargets() ? 0 : 255, hasTargets() ? 255 : 0, 0));
-		System.out.println(getPoseToTarget(21));
+		if (getTransformToTarget(21) != null) {
+			SmartDashboard.putNumber("X - ", getTransformToTarget(21).getX());
+			SmartDashboard.putNumber("Y - ", getTransformToTarget(21).getY());
+			SmartDashboard.putNumber("Z - ", getTransformToTarget(21).getZ());
+		}
 	}
 }

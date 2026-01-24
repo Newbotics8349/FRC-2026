@@ -14,6 +14,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -79,8 +80,8 @@ public class SwerveSubsystem extends SubsystemBase {
         return gyro.getRotation2d();
     }
 
-    public void zeroHeading() {
-        gyro.reset();
+    public Command zeroHeading() {
+        return this.runOnce(() -> gyro.reset());
     }
 
     @Override
