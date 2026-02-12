@@ -7,10 +7,10 @@ import edu.wpi.first.math.geometry.Translation2d;
 public final class Constants {
 
     public static final class DriveConstants {
-        public static final Translation2d kFrontLeftLocation = new Translation2d(1, 1);
-        public static final Translation2d kFrontRightLocation = new Translation2d(1, -1);
-        public static final Translation2d kBackRightLocation = new Translation2d(-1, -1);
-        public static final Translation2d kBackLeftLocation = new Translation2d(-1, 1);
+        public static final Translation2d kFrontLeftLocation = new Translation2d(0.33, 0.254);
+        public static final Translation2d kFrontRightLocation = new Translation2d(0.33, -0.254);
+        public static final Translation2d kBackRightLocation = new Translation2d(-0.33, -0.254);
+        public static final Translation2d kBackLeftLocation = new Translation2d(-0.33, 0.254);
 
 		public static final double kTeleOpMaxAcceleration = 5;
 		public static final double kTeleOpMaxAngularAcceleration = 3;
@@ -70,6 +70,9 @@ public final class Constants {
         public static final int vout = 400;
         public static final double g = 386.09;
         
+        // TODO real value
+        public static final int turretEncoderPort = 0;
+        public static final double maxTurretDisplacement = Math.PI / 2;
     }
 
     public static final class PWMConstants {
@@ -80,7 +83,7 @@ public final class Constants {
 
     public static enum AprilTag {
         Test(21, new Transform3d(1, 0, 0, new Rotation3d(0, 0, Math.PI))),
-        Test2(20, new Transform3d(2, 0.5, 0, new Rotation3d(0, 0, Math.PI)));
+        Test2(20, new Transform3d(0.5, 0, 0, new Rotation3d(0, 0, Math.PI)));
 
         public final int id;
         public final Transform3d offset;

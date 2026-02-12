@@ -7,13 +7,17 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.CANBus;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -23,6 +27,8 @@ public class SwerveSubsystem extends SubsystemBase {
     private final CANBus canBus;
 
     private final SwerveDriveKinematics m_kinematics;
+
+    private final SwerveDriveOdometry m_odometry;
 
     private final SwerveModule[] swerveModules = {
         new SwerveModule(Constants.ModuleConstants.FrontLeft.kDriveMotorId, Constants.ModuleConstants.FrontLeft.kTurnMotorId, Constants.ModuleConstants.FrontLeft.kTurnEncoderId, Constants.ModuleConstants.FrontLeft.driveInverted),
@@ -45,6 +51,16 @@ public class SwerveSubsystem extends SubsystemBase {
         Translation2d m_backLeftLocation = Constants.DriveConstants.kBackLeftLocation;
 
         m_kinematics = new SwerveDriveKinematics(m_frontLeftLocation, m_frontRightLocation, m_backRightLocation, m_backLeftLocation);
+
+        m_odometry = new SwerveDriveOdometry(
+            m_kinematics, 
+            getRotation2d(), 
+            new SwerveModulePosition[] {
+                swerveModules[0].getOdometry(),
+                swerveModules[1].getOdometry(),
+                swerveModules[2].getOdometry(),
+                swerveModules[3].getOdometry(),
+            });
 
         publisher = NetworkTableInstance.getDefault()
             .getStructArrayTopic("/SwerveStates", SwerveModuleState.struct).publish();
@@ -81,11 +97,37 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public Command zeroHeading() {
-        return this.runOnce(() -> gyro.reset());
+        return this.runOnce(() -> {
+            gyro.reset();
+            m_odometry.resetPosition(
+                new Rotation2d(),
+                new SwerveModulePosition[] {
+                        swerveModules[0].getOdometry(),
+                        swerveModules[1].getOdometry(),
+                        swerveModules[2].getOdometry(),
+                        swerveModules[3].getOdometry(),
+                }, 
+                new Pose2d()
+            );
+        });
+    }
+
+    public Pose2d getOdometry() {
+        return m_odometry.getPoseMeters();
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
+        SmartDashboard.putString("Odometry",
+            m_odometry.update(
+                getRotation2d(), 
+                new SwerveModulePosition[] {
+                    swerveModules[0].getOdometry(),
+                    swerveModules[1].getOdometry(),
+                    swerveModules[2].getOdometry(),
+                    swerveModules[3].getOdometry(),
+                }).toString()
+        );
     }
 }
