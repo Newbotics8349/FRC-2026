@@ -4,13 +4,19 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import util.Elastic;
 
 public class Robot extends TimedRobot {
 	private Command m_autonomousCommand;
+
+	private String gamedata = "";
+	private String alliance;
+	private double time;
 
 	private final RobotContainer m_robotContainer;
 
@@ -43,13 +49,17 @@ public class Robot extends TimedRobot {
 	}
 
 	@Override
-	public void autonomousPeriodic() {}
+	public void autonomousPeriodic() {
+		SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
+	}
 
 	@Override
 	public void autonomousExit() {}
 
 	@Override
 	public void teleopInit() {
+		alliance = DriverStation.getAlliance().get().toString().substring(0, 1);
+
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
@@ -57,7 +67,24 @@ public class Robot extends TimedRobot {
 	}
 
 	@Override
-	public void teleopPeriodic() {}
+	public void teleopPeriodic() {
+		time = DriverStation.getMatchTime();
+		SmartDashboard.putNumber("Match Time", time);
+		
+		if (gamedata == "") {
+			gamedata = DriverStation.getGameSpecificMessage();
+		} else {
+			SmartDashboard.putBoolean(
+				"Can Score", 
+				time > 130
+				|| time <= 30
+				|| (130 >= time && time > 105 && !alliance.equals(gamedata))
+				|| (105 >= time && time > 80 && alliance.equals(gamedata))
+				|| (80 >= time && time > 55 && !alliance.equals(gamedata))
+				|| (55 >= time && time > 30 && alliance.equals(gamedata))
+			);
+		}
+	}
 
 	@Override
 	public void teleopExit() {}

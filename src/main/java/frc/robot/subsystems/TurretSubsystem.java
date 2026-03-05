@@ -29,8 +29,10 @@ public class TurretSubsystem extends SubsystemBase {
 	}
 
 	public void setPos(Rotation2d newPos) {
-		pid.calculate(getPos().getRadians(), newPos.getRadians());
-		motor.set(pid.calculate(getPos().getRadians(), newPos.getRadians()));
+		if (newPos.getRadians() < Math.PI && newPos.getRadians() > -1 * Math.PI) {
+			pid.calculate(getPos().getRadians(), newPos.getRadians());
+			motor.set(pid.calculate(getPos().getRadians(), newPos.getRadians()));
+		}
 	}
 	
 	public void setPos(double newPos) {

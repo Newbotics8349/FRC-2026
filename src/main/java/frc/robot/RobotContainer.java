@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -38,8 +37,6 @@ public class RobotContainer {
 		m_AprilTagChooser.setDefaultOption("20", Constants.AprilTag.Test2);
 		m_AprilTagChooser.addOption("21", Constants.AprilTag.Test);
 		SmartDashboard.putData("April Tag Chooser", m_AprilTagChooser);
-
-		SmartDashboard.putNumber("Match Time", Timer.getMatchTime());
 
 		configureBindings();
 	}

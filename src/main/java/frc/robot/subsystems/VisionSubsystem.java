@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -51,9 +50,6 @@ public class VisionSubsystem extends SubsystemBase {
 		PhotonTrackedTarget target = getSpecificTarget(id);
 		if (target != null) {
 			Transform3d distance = target.bestCameraToTarget;
-			SmartDashboard.putNumber("target-x", distance.getX());
-			SmartDashboard.putNumber("target-y", distance.getY());
-			SmartDashboard.putNumber("rotation", distance.getRotation().getZ());
 			return distance;
 		}
 		return null;
@@ -65,10 +61,5 @@ public class VisionSubsystem extends SubsystemBase {
 		List<PhotonPipelineResult> unread = camera.getAllUnreadResults();
 		if (unread.size() > 0) result = unread.get(unread.size() - 1);
 		CommandScheduler.getInstance().schedule(m_LedSubsystem.setColour(hasTargets() ? 0 : 255, hasTargets() ? 255 : 0, 0));
-		if (getTransformToTarget(21) != null) {
-			SmartDashboard.putNumber("X - ", getTransformToTarget(21).getX());
-			SmartDashboard.putNumber("Y - ", getTransformToTarget(21).getY());
-			SmartDashboard.putNumber("Z - ", getTransformToTarget(21).getZ());
-		}
 	}
 }

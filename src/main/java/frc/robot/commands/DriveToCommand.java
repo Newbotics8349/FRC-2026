@@ -61,21 +61,19 @@ public class DriveToCommand extends Command {
 				Math.abs(pidx) < 0.01 ? 0 : pidx, 
 				Math.abs(pidy) < 0.01 ? 0 : pidy, 
 				Math.abs(pidrot) < 0.003 ? 0 : pidrot));
+		} else if (targetPose != null) {
+			Transform2d target = targetPose.minus(m_SwerveSubsystem.getOdometry()).times(-1);
+
+			double pidx = pidMove.calculate(target.getX());
+			double pidy = pidMove.calculate(target.getY());
+			double pidrot = pidRot.calculate(target.getRotation().getRadians() * -1);
+
+			m_SwerveSubsystem.setModuleStates(new ChassisSpeeds(
+				Math.abs(pidx) < 0.01 ? 0 : pidx, 
+				Math.abs(pidy) < 0.01 ? 0 : pidy, 
+				Math.abs(pidrot) < 0.003 ? 0 : pidrot));
 		} else {
-			if (targetPose != null) {
-				Transform2d target = targetPose.minus(m_SwerveSubsystem.getOdometry()).times(-1);
-
-				double pidx = pidMove.calculate(target.getX());
-				double pidy = pidMove.calculate(target.getY());
-				double pidrot = pidRot.calculate(target.getRotation().getRadians() * -1);
-
-				m_SwerveSubsystem.setModuleStates(new ChassisSpeeds(
-					Math.abs(pidx) < 0.01 ? 0 : pidx, 
-					Math.abs(pidy) < 0.01 ? 0 : pidy, 
-					Math.abs(pidrot) < 0.003 ? 0 : pidrot));
-			} else {
-				m_SwerveSubsystem.setModuleStates(new ChassisSpeeds(0, 0, 0));
-			}
+			m_SwerveSubsystem.setModuleStates(new ChassisSpeeds(0, 0, 0));
 		}
 
 	}
