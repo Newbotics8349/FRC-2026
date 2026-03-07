@@ -34,8 +34,7 @@ public class DriveToCommand extends Command {
 		this.tag = tag;
 
 		// Use addRequirements() here to declare subsystem dependencies.
-		addRequirements(m_SwerveSubsystem);
-		addRequirements(m_VisionSubsystem);
+		addRequirements(m_SwerveSubsystem, m_VisionSubsystem);
 	}
 
 	// Called when the command is initially scheduled.

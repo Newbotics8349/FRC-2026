@@ -10,6 +10,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class TurretSubsystem extends SubsystemBase {
 	/** Creates a new TurretSubsystem. */
@@ -18,10 +19,9 @@ public class TurretSubsystem extends SubsystemBase {
 	private final DutyCycleEncoder encoder;
 
 	public TurretSubsystem() {
-		pid = new PIDController(0, 0, 0);
-		// TODO constants
-		motor = new SparkMax(0, null);
-		encoder = new DutyCycleEncoder(0, Math.PI * 2, 0);
+		pid = new PIDController(Constants.ShooterConstants.turretPID[0], Constants.ShooterConstants.turretPID[1], Constants.ShooterConstants.turretPID[2]);
+		motor = new SparkMax(Constants.ShooterConstants.turretMotorId, null);
+		encoder = new DutyCycleEncoder(Constants.ShooterConstants.turretEncoderPort, Math.PI * 2, 0);
 	}
 
 	public Rotation2d getPos() {

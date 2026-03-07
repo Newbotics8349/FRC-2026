@@ -7,28 +7,30 @@ package frc.robot.subsystems;
 import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class ExtensionSubsystem extends SubsystemBase {
 	/** Creates a new ExtensionSubsystem. */
 	private SparkMax motor;
-	// TODO absolute encoder (check type)
-	// TODO constants
 	private PIDController pid;
+	private DutyCycleEncoder encoder;
 	
 
 	public ExtensionSubsystem() {
-		// TODO constants
-		motor = new SparkMax(0, null);
-		pid = new PIDController(0, 0, 0);
+		motor = new SparkMax(Constants.IntakeConstants.extensionMotorId, null);
+		encoder = new DutyCycleEncoder(Constants.IntakeConstants.extensionEncoderPort, 2 * Math.PI, 0);
+		pid = new PIDController(Constants.IntakeConstants.extensionPID[0], Constants.IntakeConstants.extensionPID[1], Constants.IntakeConstants.extensionPID[2]);
 	}
 
 	// REVIEW do based off of angle
 	public void in() {
-
+		motor.set(pid.calculate(encoder.get(), Constants.IntakeConstants.extensionIn));
 	}
 
 	public void out() {
+		motor.set(pid.calculate(encoder.get(), Constants.IntakeConstants.extensionOut));
 
 	}
 

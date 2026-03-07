@@ -5,7 +5,7 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
 
 public final class Constants {
-
+    // REVIEW make sure all values are correct
     public static final class DriveConstants {
         public static final Translation2d kFrontLeftLocation = new Translation2d(0.33, 0.254);
         public static final Translation2d kFrontRightLocation = new Translation2d(0.33, -0.254);
@@ -70,15 +70,47 @@ public final class Constants {
         public static final int vout = 400;
         public static final double g = 386.09;
         
-        // TODO real value
         public static final int turretEncoderPort = 0;
-        public static final double maxTurretDisplacement = Math.PI / 2;
+        public static final int hoodEncoderPort = 0;
+
+        public static final int turretMotorId = 0;
+        public static final int hoodMotorId = 0;
+
+        public static final double[] turretPID = {
+            0, 0, 0
+        };
+        public static final double[] hoodPID = {
+            0, 0, 0
+        };
+
+        public static final int[] shooterMotorIds = {0, 0};
+        public static final double shooterMotorSpeed = 0;
     }
 
+    public static final class IntakeConstants {
+        public static int omniMotorId = 0;
+        public static int intakeMotorId = 0;
+        public static int feederMotorId = 0;
+        public static int extensionMotorId = 0;
+        public static int conveyorMotorId = 0;
+
+        public static double omniMotorSpeed = 0;
+        public static double intakeMotorSpeed = 0;
+        public static double feederMotorSpeed = 0;
+        public static double conveyorMotorSpeed = 0;
+
+        public static double[] extensionPID = {
+            0, 0, 0
+        };
+        public static int extensionEncoderPort = 0;
+        public static double extensionOut = 0;
+        public static double extensionIn = 0;
+    }
+    
     public static final class PWMConstants {
         public static final int kLedPort = 0;
     }
-
+    
     public static final int numLeds = 60;
 
     public static enum AprilTag {

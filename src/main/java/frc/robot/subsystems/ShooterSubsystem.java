@@ -7,23 +7,22 @@ package frc.robot.subsystems;
 import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
 	/** Creates a new ShooterSubsystem. */
 	private final SparkMax[] motors;
 	public ShooterSubsystem() {
 		motors = new SparkMax[] {
-			// TODO constants
-			new SparkMax(0, null),
-			new SparkMax(0, null),
+			new SparkMax(Constants.ShooterConstants.shooterMotorIds[0], null),
+			new SparkMax(Constants.ShooterConstants.shooterMotorIds[1], null),
 		};
 	}
 
 	public void start() {
-		// TODO constants
-		motors[0].set(0);
-		// TODO negative?
-		motors[1].set(0);
+		motors[0].set(Constants.ShooterConstants.shooterMotorSpeed);
+		// REVIEW negative?
+		motors[1].set(Constants.ShooterConstants.shooterMotorSpeed);
 	}
 
 	public void stop() {

@@ -38,6 +38,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     private final StructArrayPublisher<SwerveModuleState> publisher;
     private final StructArrayPublisher<ChassisSpeeds> publisher2;
+    private ChassisSpeeds chassisSpeeds;
 
     /** Creates a new SwerveSubsystem. */
     public SwerveSubsystem() {
@@ -68,6 +69,8 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void setModuleStates(ChassisSpeeds chassisSpeeds) {
+        this.chassisSpeeds = chassisSpeeds;
+        
         SwerveModuleState[] moduleStates = m_kinematics.toSwerveModuleStates(chassisSpeeds);
         for (int i = 0; i < 4; i++) {
             swerveModules[i].setModuleState(moduleStates[i]);
@@ -83,6 +86,10 @@ public class SwerveSubsystem extends SubsystemBase {
             moduleStates[2],
             moduleStates[3]
         });
+    }
+
+    public ChassisSpeeds getChassisSpeeds() {
+        return chassisSpeeds;
     }
 
     public void stopModules() {

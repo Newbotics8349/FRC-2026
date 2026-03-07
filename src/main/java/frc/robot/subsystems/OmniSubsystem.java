@@ -7,19 +7,18 @@ package frc.robot.subsystems;
 import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class OmniSubsystem extends SubsystemBase {
   /** Creates a new OmniSubsystem. */
 	private SparkMax motor;
 
 	public OmniSubsystem() {
-		// TODO constants
-		motor = new SparkMax(0, null);
+		motor = new SparkMax(Constants.IntakeConstants.omniMotorId, null);
 	}
 
 	public void start() {
-		// TODO constants
-		motor.set(0);
+		motor.set(Constants.IntakeConstants.omniMotorSpeed);
 	}
 
 	public void stop() {
