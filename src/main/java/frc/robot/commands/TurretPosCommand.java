@@ -33,7 +33,7 @@ public class TurretPosCommand extends Command {
 		this.robotVelocity = robotVelocity;
 
 		// Use addRequirements() here to declare subsystem dependencies.
-		addRequirements(m_VisionSubsystem, m_TurretSubsystem, m_HoodSubsystem);
+		addRequirements(m_TurretSubsystem, m_HoodSubsystem);
 	}
 
 	// Called when the command is initially scheduled.

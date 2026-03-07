@@ -19,7 +19,6 @@ import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
 public class RobotContainer {
-	// REVIEW maybe don't addrequirements vision
 	private final SendableChooser<Command> m_AutoChooser = new SendableChooser<>();
 	private final SendableChooser<Constants.AprilTag> m_AprilTagChooser = new SendableChooser<>();
 

@@ -24,7 +24,6 @@ public class ExtensionSubsystem extends SubsystemBase {
 		pid = new PIDController(Constants.IntakeConstants.extensionPID[0], Constants.IntakeConstants.extensionPID[1], Constants.IntakeConstants.extensionPID[2]);
 	}
 
-	// REVIEW do based off of angle
 	public void in() {
 		motor.set(pid.calculate(encoder.get(), Constants.IntakeConstants.extensionIn));
 	}
