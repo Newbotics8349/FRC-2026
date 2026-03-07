@@ -15,6 +15,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -73,8 +74,7 @@ public class SwerveModule extends SubsystemBase {
     }
 
     public SwerveModulePosition getOdometry() {
-        // TODO change to based radius in constants
-        return new SwerveModulePosition(driveMotor.getEncoder().getPosition() * 0.0473, getAngle());
+        return new SwerveModulePosition(driveMotor.getEncoder().getPosition() * Math.PI * Units.metersToInches(Constants.ModuleConstants.wheelDiameterInches) / Constants.ModuleConstants.driveGearRatio, getAngle());
     }
 
     @Override

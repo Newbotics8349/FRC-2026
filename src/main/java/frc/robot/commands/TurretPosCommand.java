@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.HoodSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
@@ -46,8 +47,8 @@ public class TurretPosCommand extends Command {
 		Transform3d pos = m_VisionSubsystem.getTransformToTarget(0);
 		ChassisSpeeds rv = robotVelocity.get();
 		ShootAndMoveMath m = new ShootAndMoveMath(
-			new Vector3(pos.getX(), pos.getY(), 0), 
-			new Vector3(rv.vxMetersPerSecond, rv.vyMetersPerSecond, 0)
+			new Vector3(Units.metersToInches(pos.getX()), Units.metersToInches(pos.getY()), 0), 
+			new Vector3(Units.metersToInches(rv.vxMetersPerSecond), Units.metersToInches(rv.vyMetersPerSecond), 0)
 		);
 
 		m_TurretSubsystem.setPos(m.rotToTarget());

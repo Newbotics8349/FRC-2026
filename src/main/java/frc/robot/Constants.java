@@ -50,6 +50,9 @@ public final class Constants {
         public static final double kP = 0.3;
         public static final double kI = 0;
         public static final double kD = 0.002;
+
+        public static final double wheelDiameterInches = 4;
+        public static final double driveGearRatio = 6.75;
     }
 
     public static final class ControllerConstants {
