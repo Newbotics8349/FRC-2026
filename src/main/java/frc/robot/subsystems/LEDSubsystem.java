@@ -14,23 +14,23 @@ import frc.robot.Constants;
 
 public class LEDSubsystem extends SubsystemBase {
   	/** Creates a new LEDSubsystem. */
-	private final AddressableLED m_led;
+	// private final AddressableLED m_led;
 
 	public LEDSubsystem() {
-		m_led = new AddressableLED(Constants.PWMConstants.kLedPort);
+		// m_led = new AddressableLED(Constants.PWMConstants.kLedPort);
 
-		m_led.setLength(Constants.numLeds);
-		m_led.start();
+		// m_led.setLength(Constants.numLeds);
+		// m_led.start();
 	}
 
 	public Command setColour(int red, int green, int blue) {
 		return runOnce(() -> {
-			AddressableLEDBuffer buffer = new AddressableLEDBuffer(Constants.numLeds);
-			LEDPattern pattern = LEDPattern.solid(new Color(red, green, blue));
+		// 	AddressableLEDBuffer buffer = new AddressableLEDBuffer(Constants.numLeds);
+		// 	LEDPattern pattern = LEDPattern.solid(new Color(red, green, blue));
 
-			pattern.applyTo(buffer);
+		// 	pattern.applyTo(buffer);
 
-			m_led.setData(buffer);
+		// 	m_led.setData(buffer);
 		});
 	}
 

@@ -95,12 +95,12 @@ public final class Constants {
         public static int intakeMotorId = 0;
         public static int feederMotorId = 0;
         public static int extensionMotorId = 0;
-        public static int conveyorMotorId = 0;
+        public static int conveyorPWMPort = 0;
 
         public static double omniMotorSpeed = 0;
         public static double intakeMotorSpeed = 0;
         public static double feederMotorSpeed = 0;
-        public static double conveyorMotorSpeed = 0;
+        public static double conveyorMotorSpeed = 0.5;
 
         public static double[] extensionPID = {
             0, 0, 0

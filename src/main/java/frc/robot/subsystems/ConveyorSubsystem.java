@@ -4,17 +4,16 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.spark.SparkMax;
-
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ConveyorSubsystem extends SubsystemBase {
 	/** Creates a new ConveyorSubsystem. */
-	private SparkMax motor;
+	private Spark motor;
 
 	public ConveyorSubsystem() {
-		motor = new SparkMax(Constants.IntakeConstants.conveyorMotorId, null);
+		motor = new Spark(Constants.IntakeConstants.conveyorPWMPort);
 	}
 
 	public void start() {
