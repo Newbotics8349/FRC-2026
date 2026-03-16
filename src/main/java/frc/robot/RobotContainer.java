@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -12,11 +11,13 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveJoystickCommand;
 import frc.robot.commands.DriveToCommand;
-import frc.robot.commands.TurretPosCommand;
-import frc.robot.subsystems.HoodSubsystem;
+import frc.robot.subsystems.ConveyorSubsystem;
+import frc.robot.subsystems.FeederSubsystem;
+// import frc.robot.commands.TurretPosCommand;
+// import frc.robot.subsystems.HoodSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.subsystems.TurretSubsystem;
+// import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
 public class RobotContainer {
@@ -26,17 +27,19 @@ public class RobotContainer {
 	private final SwerveSubsystem m_SwerveSubsystem;
 	private final LEDSubsystem m_LedSubsystem;
 	private final VisionSubsystem m_VisionSubsystem;
-	private final TurretSubsystem m_TurretSubsystem;
-	private final HoodSubsystem m_HoodSubsystem;
+	private final FeederSubsystem m_FeederSubsystem;
+	// private final TurretSubsystem m_TurretSubsystem;
+	// private final HoodSubsystem m_HoodSubsystem;
 
 	private CommandXboxController driveController = new CommandXboxController(Constants.ControllerConstants.kDriverController);
 
-	public RobotContainer() {
+	public RobotContainer(ConveyorSubsystem conveyorSubsystem, LEDSubsystem ledSubsystem) {
 		m_SwerveSubsystem = new SwerveSubsystem();
-		m_LedSubsystem = new LEDSubsystem();
+		m_LedSubsystem = ledSubsystem;
 		m_VisionSubsystem = new VisionSubsystem(m_LedSubsystem);
-		m_TurretSubsystem = new TurretSubsystem();
-		m_HoodSubsystem = new HoodSubsystem();
+		m_FeederSubsystem = new FeederSubsystem();
+		// m_TurretSubsystem = new TurretSubsystem();
+		// m_HoodSubsystem = new HoodSubsystem();
 
 		m_AutoChooser.setDefaultOption("Test Auto", Commands.startEnd(() -> System.out.println("Test auto"), () -> System.out.println("end"), m_VisionSubsystem));
 		m_AutoChooser.addOption("Test Auto 2", Commands.startEnd(() -> System.out.println("Second auto"), () -> System.out.println("end"), m_VisionSubsystem));
@@ -60,7 +63,9 @@ public class RobotContainer {
 		
 		driveController.y().whileTrue(new DriveToCommand(m_SwerveSubsystem, m_VisionSubsystem, () -> m_AprilTagChooser.getSelected()));
 		driveController.a().onTrue(m_SwerveSubsystem.zeroHeading());
-		driveController.x().whileTrue(new TurretPosCommand(m_VisionSubsystem, m_TurretSubsystem, m_HoodSubsystem, () -> m_SwerveSubsystem.getChassisSpeeds()));
+		// driveController.x().whileTrue(new TurretPosCommand(m_VisionSubsystem, m_TurretSubsystem, m_HoodSubsystem, () -> m_SwerveSubsystem.getChassisSpeeds()));
+		driveController.x().whileTrue(Commands.run(() -> m_FeederSubsystem.start(), m_FeederSubsystem))
+							.onFalse(Commands.runOnce(() -> m_FeederSubsystem.stop(), m_FeederSubsystem));
 	}
 
 	public Command getAutonomousCommand() {

@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public final class Constants {
     // REVIEW make sure all values are correct
@@ -73,11 +74,11 @@ public final class Constants {
         public static final int vout = 400;
         public static final double g = 386.09;
         
-        public static final int turretEncoderPort = 0;
-        public static final int hoodEncoderPort = 0;
+        public static final int turretEncoderPort = 100;
+        public static final int hoodEncoderPort = 101;
 
-        public static final int turretMotorId = 0;
-        public static final int hoodMotorId = 0;
+        public static final int turretMotorId = 600;
+        public static final int hoodMotorId = 601;
 
         public static final double[] turretPID = {
             0, 0, 0
@@ -86,26 +87,26 @@ public final class Constants {
             0, 0, 0
         };
 
-        public static final int[] shooterMotorIds = {0, 0};
+        public static final int[] shooterMotorIds = {200, 201};
         public static final double shooterMotorSpeed = 0;
     }
 
     public static final class IntakeConstants {
-        public static int omniMotorId = 0;
-        public static int intakeMotorId = 0;
-        public static int feederMotorId = 0;
-        public static int extensionMotorId = 0;
-        public static int conveyorPWMPort = 0;
+        public static int omniMotorId = 500;
+        public static int intakeMotorId = 501;
+        public static int feederMotorId = 40;
+        public static int extensionMotorId = 503;
+        public static int conveyorPWMPort = 9;
 
         public static double omniMotorSpeed = 0;
         public static double intakeMotorSpeed = 0;
-        public static double feederMotorSpeed = 0;
-        public static double conveyorMotorSpeed = 0.5;
+        public static double feederMotorSpeed = -0.4;
+        public static double conveyorMotorSpeed = 0.75;
 
         public static double[] extensionPID = {
             0, 0, 0
         };
-        public static int extensionEncoderPort = 0;
+        public static int extensionEncoderPort = 105;
         public static double extensionOut = 0;
         public static double extensionIn = 0;
     }

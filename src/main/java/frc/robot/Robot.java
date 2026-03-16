@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.ConveyorSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import util.Elastic;
 
@@ -19,12 +20,13 @@ public class Robot extends TimedRobot {
 	private String gamedata = "";
 	private String alliance;
 	private double time;
-	private ConveyorSubsystem conveyorSubsystem;
+	private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
+	private final LEDSubsystem ledSubsystem = new LEDSubsystem();
 
 	private final RobotContainer m_robotContainer;
 
 	public Robot() {
-		m_robotContainer = new RobotContainer();
+		m_robotContainer = new RobotContainer(conveyorSubsystem, ledSubsystem);
 	}
 
 	@Override
@@ -69,7 +71,6 @@ public class Robot extends TimedRobot {
 		Elastic.selectTab("Teleoperated");
 
 		CommandScheduler.getInstance().schedule(Commands.runOnce(() -> conveyorSubsystem.start()));
-		CommandScheduler.getInstance().schedule(Commands.runOnce(() -> conveyorSubsystem.start()));
 	}
 
 	@Override
@@ -89,6 +90,18 @@ public class Robot extends TimedRobot {
 				|| (80 >= time && time > 55 && !alliance.equals(gamedata))
 				|| (55 >= time && time > 30 && alliance.equals(gamedata))
 			);
+
+			int timeOffset = 2;
+			if (time > 130
+				|| time <= 30
+				|| (130 + timeOffset >= time && time > 105 && !alliance.equals(gamedata))
+				|| (105 + timeOffset >= time && time > 80 && alliance.equals(gamedata))
+				|| (80 + timeOffset >= time && time > 55 && !alliance.equals(gamedata))
+				|| (55 + timeOffset >= time && time > 30 && alliance.equals(gamedata))) {
+					CommandScheduler.getInstance().schedule(ledSubsystem.setColour(0, 255, 0));
+				} else {
+					CommandScheduler.getInstance().schedule(ledSubsystem.setColour(0, 0, 0));
+				}
 		}
 	}
 
