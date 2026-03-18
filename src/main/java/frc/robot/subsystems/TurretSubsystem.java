@@ -10,6 +10,7 @@
 // import edu.wpi.first.math.controller.PIDController;
 // import edu.wpi.first.math.geometry.Rotation2d;
 // import edu.wpi.first.wpilibj.DutyCycleEncoder;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // import frc.robot.Constants;
 
@@ -21,9 +22,10 @@
 
 // 	public TurretSubsystem() {
 // 		pid = new PIDController(Constants.ShooterConstants.turretPID[0], Constants.ShooterConstants.turretPID[1], Constants.ShooterConstants.turretPID[2]);
+//         SmartDashboard.putData(pid);
 // 			// TODO motortype
-// 		motor = new SparkMax(Constants.ShooterConstants.turretMotorId, MotorType.kBrushed);
-// 		encoder = new DutyCycleEncoder(Constants.ShooterConstants.turretEncoderPort, Math.PI * 2, 0);
+// 		motor = new SparkMax(Constants.ShooterConstants.turretMotorId, MotorType.kBrushless);
+// 		encoder = new DutyCycleEncoder(Constants.ShooterConstants.turretEncoderPort, Math.PI * 2 / Constants.ShooterConstants.turretGearRatio, 0);
 // 	}
 
 // 	public Rotation2d getPos() {

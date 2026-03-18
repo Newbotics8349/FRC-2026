@@ -3,10 +3,9 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public final class Constants {
-    // REVIEW make sure all values are correct
+    // TODO make sure all values are correct
     public static final class DriveConstants {
         public static final Translation2d kFrontLeftLocation = new Translation2d(0.33, 0.254);
         public static final Translation2d kFrontRightLocation = new Translation2d(0.33, -0.254);
@@ -76,6 +75,8 @@ public final class Constants {
         
         public static final int turretEncoderPort = 100;
         public static final int hoodEncoderPort = 101;
+
+        public static final double turretGearRatio = 5 * 154 / 16;
 
         public static final int turretMotorId = 600;
         public static final int hoodMotorId = 601;
