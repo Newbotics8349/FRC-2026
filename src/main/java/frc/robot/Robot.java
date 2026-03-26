@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -11,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import util.Elastic;
 
@@ -22,11 +25,22 @@ public class Robot extends TimedRobot {
 	private double time;
 	private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
 	private final LEDSubsystem ledSubsystem = new LEDSubsystem();
+	private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
 	private final RobotContainer m_robotContainer;
 
 	public Robot() {
-		m_robotContainer = new RobotContainer(conveyorSubsystem, ledSubsystem);
+		m_robotContainer = new RobotContainer(conveyorSubsystem, ledSubsystem, shooterSubsystem);
+	}
+
+	@Override
+	public void robotInit() {
+		// CommandScheduler.getInstance().schedule(Commands.runOnce(() -> conveyorSubsystem.start()));
+		CommandScheduler.getInstance().schedule(Commands.runOnce(() -> shooterSubsystem.start(false), shooterSubsystem));
+
+		UsbCamera camera = CameraServer.startAutomaticCapture(0);
+		camera.setFPS(12);
+		camera.setResolution(640, 480);
 	}
 
 	@Override
@@ -69,8 +83,6 @@ public class Robot extends TimedRobot {
 			m_autonomousCommand.cancel();
 		}
 		Elastic.selectTab("Teleoperated");
-
-		CommandScheduler.getInstance().schedule(Commands.runOnce(() -> conveyorSubsystem.start()));
 	}
 
 	@Override
@@ -91,17 +103,17 @@ public class Robot extends TimedRobot {
 				|| (55 >= time && time > 30 && alliance.equals(gamedata))
 			);
 
-			int timeOffset = 2;
-			if (time > 130
-				|| time <= 30
-				|| (130 + timeOffset >= time && time > 105 && !alliance.equals(gamedata))
-				|| (105 + timeOffset >= time && time > 80 && alliance.equals(gamedata))
-				|| (80 + timeOffset >= time && time > 55 && !alliance.equals(gamedata))
-				|| (55 + timeOffset >= time && time > 30 && alliance.equals(gamedata))) {
-					CommandScheduler.getInstance().schedule(ledSubsystem.setColour(0, 255, 0));
-				} else {
-					CommandScheduler.getInstance().schedule(ledSubsystem.setColour(0, 0, 0));
-				}
+			// int timeOffset = 2;
+			// if (time > 130
+			// 	|| time <= 30
+			// 	|| (130 + timeOffset >= time && time > 105 && !alliance.equals(gamedata))
+			// 	|| (105 + timeOffset >= time && time > 80 && alliance.equals(gamedata))
+			// 	|| (80 + timeOffset >= time && time > 55 && !alliance.equals(gamedata))
+			// 	|| (55 + timeOffset >= time && time > 30 && alliance.equals(gamedata))) {
+			// 		CommandScheduler.getInstance().schedule(ledSubsystem.setColour(0, 255, 0));
+			// 	} else {
+			// 		CommandScheduler.getInstance().schedule(ledSubsystem.setColour(0, 0, 0));
+			// 	}
 		}
 	}
 

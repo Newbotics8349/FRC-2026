@@ -60,6 +60,6 @@ public class VisionSubsystem extends SubsystemBase {
 		// This method will be called once per scheduler run
 		List<PhotonPipelineResult> unread = camera.getAllUnreadResults();
 		if (unread.size() > 0) result = unread.get(unread.size() - 1);
-		// CommandScheduler.getInstance().schedule(m_LedSubsystem.setColour(hasTargets() ? 0 : 255, hasTargets() ? 255 : 0, 0));
+		CommandScheduler.getInstance().schedule(m_LedSubsystem.setColour(hasTargets() ? 0 : 255, hasTargets() ? 255 : 0, 0));
 	}
 }
