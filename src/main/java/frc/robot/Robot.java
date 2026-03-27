@@ -10,9 +10,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.ConveyorSubsystem;
-import frc.robot.subsystems.LEDSubsystem;
+// import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import util.Elastic;
@@ -24,19 +23,20 @@ public class Robot extends TimedRobot {
 	private String alliance;
 	private double time;
 	private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
-	private final LEDSubsystem ledSubsystem = new LEDSubsystem();
+	// private final LEDSubsystem ledSubsystem = new LEDSubsystem();
 	private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
 	private final RobotContainer m_robotContainer;
 
 	public Robot() {
-		m_robotContainer = new RobotContainer(conveyorSubsystem, ledSubsystem, shooterSubsystem);
+		// m_robotContainer = new RobotContainer(conveyorSubsystem, ledSubsystem, shooterSubsystem);
+		m_robotContainer = new RobotContainer(conveyorSubsystem, shooterSubsystem);
 	}
 
 	@Override
 	public void robotInit() {
 		// CommandScheduler.getInstance().schedule(Commands.runOnce(() -> conveyorSubsystem.start()));
-		CommandScheduler.getInstance().schedule(Commands.runOnce(() -> shooterSubsystem.start(false), shooterSubsystem));
+		// CommandScheduler.getInstance().schedule(Commands.runOnce(() -> shooterSubsystem.start(false), shooterSubsystem));
 
 		UsbCamera camera = CameraServer.startAutomaticCapture(0);
 		camera.setFPS(12);

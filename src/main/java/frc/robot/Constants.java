@@ -1,16 +1,17 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
 
 public final class Constants {
     // TODO make sure all values are correct
     public static final class DriveConstants {
-        public static final Translation2d kFrontLeftLocation = new Translation2d(0.33, 0.254);
-        public static final Translation2d kFrontRightLocation = new Translation2d(0.33, -0.254);
-        public static final Translation2d kBackRightLocation = new Translation2d(-0.33, -0.254);
-        public static final Translation2d kBackLeftLocation = new Translation2d(-0.33, 0.254);
+        public static final Translation2d kFrontLeftLocation = new Translation2d(0.265, 0.265);
+        public static final Translation2d kFrontRightLocation = new Translation2d(0.265, -0.265);
+        public static final Translation2d kBackRightLocation = new Translation2d(-0.265, -0.265);
+        public static final Translation2d kBackLeftLocation = new Translation2d(-0.265, 0.265);
 
 		public static final double kTeleOpMaxAcceleration = 5;
 		public static final double kTeleOpMaxAngularAcceleration = 3;
@@ -90,6 +91,8 @@ public final class Constants {
 
         public static final int[] shooterMotorIds = {31, 32};
         public static final double shooterMotorSpeed = 0.6;
+
+        public static final Transform3d turretOffset = new Transform3d(-12.5, -8.7, 0, new Rotation3d(new Rotation2d(Math.PI / 2)));
     }
 
     public static final class IntakeConstants {
@@ -100,15 +103,15 @@ public final class Constants {
         public static int conveyorPWMPort = 9;
 
         public static double omniMotorSpeed = 0.15;
-        public static double intakeMotorSpeed = 0.1;
-        public static double feederMotorSpeed = -0.4;
+        public static double intakeMotorSpeed = -0.65;
+        public static double feederMotorSpeed = -0.7;
         public static double conveyorMotorSpeed = 0.75;
 
         public static double[] extensionPID = {
             0.035, 0, 0
         };
         public static int extensionEncoderPort = 105;
-        public static double extensionOut = 5.7;
+        public static double extensionOut = 5;
         public static double extensionIn = 0;
     }
     
@@ -119,8 +122,7 @@ public final class Constants {
     public static final int numLeds = 60;
 
     public static enum AprilTag {
-        Test(21, new Transform3d(1, 0, 0, new Rotation3d(0, 0, Math.PI))),
-        Test2(20, new Transform3d(0.5, 0, 0, new Rotation3d(0, 0, Math.PI)));
+        Hub1(8, new Transform3d(23.5, 0, 0, new Rotation3d(0, 0, Math.PI)));
 
         public final int id;
         public final Transform3d offset;

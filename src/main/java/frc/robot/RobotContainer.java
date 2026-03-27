@@ -17,7 +17,7 @@ import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 // import frc.robot.commands.TurretPosCommand;
 import frc.robot.subsystems.HoodSubsystem;
-import frc.robot.subsystems.LEDSubsystem;
+// import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.OmniSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -29,10 +29,9 @@ public class RobotContainer {
 	private final SendableChooser<Constants.AprilTag> m_AprilTagChooser = new SendableChooser<>();
 
 	private final SwerveSubsystem m_SwerveSubsystem;
-	private final LEDSubsystem m_LedSubsystem;
+	// private final LEDSubsystem m_LedSubsystem;
 	private final VisionSubsystem m_VisionSubsystem;
 	private final FeederSubsystem m_FeederSubsystem;
-	private final ConveyorSubsystem m_ConveyorSubsystem;
 	private final ShooterSubsystem m_ShooterSubsystem;
 	private final OmniSubsystem m_OmniSubsystem;
 	private final IntakeSubsystem m_IntakeSubsystem;
@@ -42,25 +41,48 @@ public class RobotContainer {
 
 	private CommandXboxController driveController = new CommandXboxController(Constants.ControllerConstants.kDriverController);
 
-	public RobotContainer(ConveyorSubsystem conveyorSubsystem, LEDSubsystem ledSubsystem, ShooterSubsystem shooterSubsystem) {
+	// public RobotContainer(ConveyorSubsystem conveyorSubsystem, LEDSubsystem ledSubsystem, ShooterSubsystem shooterSubsystem) {
+	// 	m_SwerveSubsystem = new SwerveSubsystem();
+	// 	m_LedSubsystem = ledSubsystem;
+	// 	m_VisionSubsystem = new VisionSubsystem(m_LedSubsystem);
+	// 	m_FeederSubsystem = new FeederSubsystem();
+	// 	m_ShooterSubsystem = shooterSubsystem;
+	// 	m_OmniSubsystem = new OmniSubsystem();
+	// 	m_IntakeSubsystem = new IntakeSubsystem();
+	// 	m_ConveyorSubsystem = conveyorSubsystem;
+	// 	m_ExtensionSubsystem = new ExtensionSubsystem();
+	// 	m_TurretSubsystem = new TurretSubsystem();
+	// 	m_HoodSubsystem = new HoodSubsystem();
+
+	// 	m_AutoChooser.setDefaultOption("Test Auto", Commands.startEnd(() -> System.out.println("Test auto"), () -> System.out.println("end"), m_VisionSubsystem));
+	// 	m_AutoChooser.addOption("Test Auto 2", Commands.startEnd(() -> System.out.println("Second auto"), () -> System.out.println("end"), m_VisionSubsystem));
+	// 	SmartDashboard.putData("Auto Chooser", m_AutoChooser);
+
+	// 	m_AprilTagChooser.setDefaultOption("20", Constants.AprilTag.Test2);
+	// 	m_AprilTagChooser.addOption("21", Constants.AprilTag.Test);
+	// 	SmartDashboard.putData("April Tag Chooser", m_AprilTagChooser);
+
+	// 	configureBindings();
+	// }
+
+	public RobotContainer(ConveyorSubsystem conveyorSubsystem, ShooterSubsystem shooterSubsystem) {
 		m_SwerveSubsystem = new SwerveSubsystem();
-		m_LedSubsystem = ledSubsystem;
-		m_VisionSubsystem = new VisionSubsystem(m_LedSubsystem);
+		// m_LedSubsystem = ledSubsystem;
+		// m_VisionSubsystem = new VisionSubsystem(m_LedSubsystem);
+		m_VisionSubsystem = new VisionSubsystem();
 		m_FeederSubsystem = new FeederSubsystem();
 		m_ShooterSubsystem = shooterSubsystem;
 		m_OmniSubsystem = new OmniSubsystem();
 		m_IntakeSubsystem = new IntakeSubsystem();
-		m_ConveyorSubsystem = conveyorSubsystem;
 		m_ExtensionSubsystem = new ExtensionSubsystem();
 		m_TurretSubsystem = new TurretSubsystem();
 		m_HoodSubsystem = new HoodSubsystem();
 
+		// REVIEW auto chooser
 		m_AutoChooser.setDefaultOption("Test Auto", Commands.startEnd(() -> System.out.println("Test auto"), () -> System.out.println("end"), m_VisionSubsystem));
 		m_AutoChooser.addOption("Test Auto 2", Commands.startEnd(() -> System.out.println("Second auto"), () -> System.out.println("end"), m_VisionSubsystem));
 		SmartDashboard.putData("Auto Chooser", m_AutoChooser);
 
-		m_AprilTagChooser.setDefaultOption("20", Constants.AprilTag.Test2);
-		m_AprilTagChooser.addOption("21", Constants.AprilTag.Test);
 		SmartDashboard.putData("April Tag Chooser", m_AprilTagChooser);
 
 		configureBindings();
@@ -90,7 +112,7 @@ public class RobotContainer {
 		));
 
 		driveController.b().whileTrue(
-			Commands.runOnce(() -> m_IntakeSubsystem.start(), m_IntakeSubsystem)
+			Commands.run(() -> m_IntakeSubsystem.start(), m_IntakeSubsystem)
 		).onFalse(
 			Commands.runOnce(() -> m_IntakeSubsystem.stop(), m_IntakeSubsystem)
 		);

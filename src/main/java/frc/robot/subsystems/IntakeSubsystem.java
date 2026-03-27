@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -16,13 +15,11 @@ public class IntakeSubsystem extends SubsystemBase {
 	private SparkMax motor;
 
 	public IntakeSubsystem() {
-		motor = new SparkMax(Constants.IntakeConstants.intakeMotorId, MotorType.kBrushed);
-		SmartDashboard.putNumber("intake speed", -0.34);
+		motor = new SparkMax(Constants.IntakeConstants.intakeMotorId, MotorType.kBrushless);
 	}
 
 	public void start() {
-		System.out.println("here");
-		motor.set(SmartDashboard.getNumber("intake speed", 0));
+		motor.set(Constants.IntakeConstants.intakeMotorSpeed);
 	}
 
 	public void stop() {

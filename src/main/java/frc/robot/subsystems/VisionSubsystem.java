@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.util.ArrayList;
@@ -19,11 +18,11 @@ public class VisionSubsystem extends SubsystemBase {
 	/** Creates a new VisionSubsystem. */
 	private final PhotonCamera camera = new PhotonCamera("Main Camera");
 	private PhotonPipelineResult result;
-	private LEDSubsystem m_LedSubsystem;
+	// private LEDSubsystem m_LedSubsystem;
 
-	public VisionSubsystem(LEDSubsystem ledSubsystem) {
-		m_LedSubsystem = ledSubsystem;
-	}
+	// public VisionSubsystem(LEDSubsystem ledSubsystem) {
+	// 	m_LedSubsystem = ledSubsystem;
+	// }
 
 	public boolean hasTargets() {
 		if (result == null) return false;
@@ -60,6 +59,6 @@ public class VisionSubsystem extends SubsystemBase {
 		// This method will be called once per scheduler run
 		List<PhotonPipelineResult> unread = camera.getAllUnreadResults();
 		if (unread.size() > 0) result = unread.get(unread.size() - 1);
-		CommandScheduler.getInstance().schedule(m_LedSubsystem.setColour(hasTargets() ? 0 : 255, hasTargets() ? 255 : 0, 0));
+		// CommandScheduler.getInstance().schedule(m_LedSubsystem.setColour(hasTargets() ? 0 : 255, hasTargets() ? 255 : 0, 0));
 	}
 }
