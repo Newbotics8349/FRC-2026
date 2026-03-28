@@ -34,7 +34,7 @@ public class HoodSubsystem extends SubsystemBase {
 	}
 	
 	public void setPos(double newPos) {
-		if (newPos < Units.degreesToRadians(45) && newPos > Units.degreesToRadians(23)) {
+		if (newPos <= Units.degreesToRadians(45) && newPos >= Units.degreesToRadians(23)) {
 			motor.set(-pid.calculate(getPos().getRadians(), newPos));
 		}
 	}

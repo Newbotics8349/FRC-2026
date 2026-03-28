@@ -14,6 +14,7 @@ import frc.robot.subsystems.ConveyorSubsystem;
 // import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Commands;
 import util.Elastic;
 
 public class Robot extends TimedRobot {
@@ -35,9 +36,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotInit() {
-		// CommandScheduler.getInstance().schedule(Commands.runOnce(() -> conveyorSubsystem.start()));
-		// CommandScheduler.getInstance().schedule(Commands.runOnce(() -> shooterSubsystem.start(false), shooterSubsystem));
-
 		UsbCamera camera = CameraServer.startAutomaticCapture(0);
 		camera.setFPS(12);
 		camera.setResolution(640, 480);
@@ -55,7 +53,10 @@ public class Robot extends TimedRobot {
 	public void disabledPeriodic() {}
 
 	@Override
-	public void disabledExit() {}
+	public void disabledExit() {
+		CommandScheduler.getInstance().schedule(Commands.runOnce(() -> conveyorSubsystem.start()));
+		CommandScheduler.getInstance().schedule(Commands.runOnce(() -> shooterSubsystem.start(false), shooterSubsystem));
+	}
 
 	@Override
 	public void autonomousInit() {

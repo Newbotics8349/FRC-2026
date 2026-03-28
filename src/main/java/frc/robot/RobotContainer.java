@@ -10,12 +10,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveJoystickCommand;
-import frc.robot.commands.DriveToCommand;
+import frc.robot.commands.DriveToPosCommand;
+import frc.robot.commands.FeedAllianceCommand;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.ExtensionSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-// import frc.robot.commands.TurretPosCommand;
+import frc.robot.commands.TurretPosCommand;
 import frc.robot.subsystems.HoodSubsystem;
 // import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.OmniSubsystem;
@@ -26,7 +27,6 @@ import frc.robot.subsystems.VisionSubsystem;
 
 public class RobotContainer {
 	private final SendableChooser<Command> m_AutoChooser = new SendableChooser<>();
-	private final SendableChooser<Constants.AprilTag> m_AprilTagChooser = new SendableChooser<>();
 
 	private final SwerveSubsystem m_SwerveSubsystem;
 	// private final LEDSubsystem m_LedSubsystem;
@@ -79,11 +79,43 @@ public class RobotContainer {
 		m_HoodSubsystem = new HoodSubsystem();
 
 		// REVIEW auto chooser
-		m_AutoChooser.setDefaultOption("Test Auto", Commands.startEnd(() -> System.out.println("Test auto"), () -> System.out.println("end"), m_VisionSubsystem));
-		m_AutoChooser.addOption("Test Auto 2", Commands.startEnd(() -> System.out.println("Second auto"), () -> System.out.println("end"), m_VisionSubsystem));
-		SmartDashboard.putData("Auto Chooser", m_AutoChooser);
+		m_AutoChooser.setDefaultOption("Auto center", Commands.sequence(
+			new DriveToPosCommand(m_SwerveSubsystem, -1, 0, 0),
+			Commands.parallel(
+				new TurretPosCommand(m_VisionSubsystem, m_TurretSubsystem, m_HoodSubsystem, 
+									() -> m_SwerveSubsystem.getChassisSpeeds(),
+									() -> m_VisionSubsystem.getTargets()),
+				Commands.runOnce(() -> m_ShooterSubsystem.start(), m_ShooterSubsystem),
+				Commands.runOnce(() -> m_FeederSubsystem.start(), m_FeederSubsystem),
+				Commands.runOnce(() -> m_OmniSubsystem.start(), m_OmniSubsystem)
+			)
 
-		SmartDashboard.putData("April Tag Chooser", m_AprilTagChooser);
+		));
+		m_AutoChooser.addOption("Auto left", Commands.sequence(
+			new DriveToPosCommand(m_SwerveSubsystem, -1, 0, Math.PI / 4),
+			Commands.parallel(
+				new TurretPosCommand(m_VisionSubsystem, m_TurretSubsystem, m_HoodSubsystem, 
+									() -> m_SwerveSubsystem.getChassisSpeeds(),
+									() -> m_VisionSubsystem.getTargets()),
+				Commands.runOnce(() -> m_ShooterSubsystem.start(), m_ShooterSubsystem),
+				Commands.runOnce(() -> m_FeederSubsystem.start(), m_FeederSubsystem),
+				Commands.runOnce(() -> m_OmniSubsystem.start(), m_OmniSubsystem)
+			)
+
+		));
+		m_AutoChooser.addOption("Auto right", Commands.sequence(
+			new DriveToPosCommand(m_SwerveSubsystem, -1, 0, Math.PI / -4),
+			Commands.parallel(
+				new TurretPosCommand(m_VisionSubsystem, m_TurretSubsystem, m_HoodSubsystem, 
+									() -> m_SwerveSubsystem.getChassisSpeeds(),
+									() -> m_VisionSubsystem.getTargets()),
+				Commands.runOnce(() -> m_ShooterSubsystem.start(), m_ShooterSubsystem),
+				Commands.runOnce(() -> m_FeederSubsystem.start(), m_FeederSubsystem),
+				Commands.runOnce(() -> m_OmniSubsystem.start(), m_OmniSubsystem)
+			)
+
+		));
+		SmartDashboard.putData("Auto Chooser", m_AutoChooser);
 
 		configureBindings();
 	}
@@ -97,11 +129,12 @@ public class RobotContainer {
 			() -> driveController.button(Constants.ControllerConstants.kDriverFieldOrientedButtonId).getAsBoolean(), 
 			() -> driveController.getRawAxis(Constants.ControllerConstants.kDriverSlowAxis)));
 		
-		driveController.y().whileTrue(new DriveToCommand(m_SwerveSubsystem, m_VisionSubsystem, () -> m_AprilTagChooser.getSelected()));
+		// driveController.y().whileTrue(new DriveToCommand(m_SwerveSubsystem, m_VisionSubsystem, () -> m_AprilTagChooser.getSelected()));
 		driveController.a().onTrue(m_SwerveSubsystem.zeroHeading());
-		SmartDashboard.putNumber("shooter speed", -0.1);
-		// driveController.x().whileTrue(new TurretPosCommand(m_VisionSubsystem, m_TurretSubsystem, m_HoodSubsystem, () -> m_SwerveSubsystem.getChassisSpeeds()));
 		driveController.x().whileTrue(Commands.parallel(
+			new TurretPosCommand(m_VisionSubsystem, m_TurretSubsystem, m_HoodSubsystem, 
+								() -> m_SwerveSubsystem.getChassisSpeeds(),
+								() -> m_VisionSubsystem.getTargets()),
 			Commands.runOnce(() -> m_ShooterSubsystem.start(), m_ShooterSubsystem),
 			Commands.runOnce(() -> m_FeederSubsystem.start(), m_FeederSubsystem),
 			Commands.runOnce(() -> m_OmniSubsystem.start(), m_OmniSubsystem)
@@ -117,15 +150,31 @@ public class RobotContainer {
 			Commands.runOnce(() -> m_IntakeSubsystem.stop(), m_IntakeSubsystem)
 		);
 
-		SmartDashboard.putNumber("position", 0);
 		driveController.povLeft().whileTrue(
-			Commands.run(() -> m_TurretSubsystem.setPos(SmartDashboard.getNumber("position", 0)), m_TurretSubsystem)
-		).onFalse(Commands.run(() -> m_TurretSubsystem.stop(), m_TurretSubsystem));
+			Commands.parallel(new FeedAllianceCommand(m_TurretSubsystem, m_HoodSubsystem, true),
+							Commands.runOnce(() -> m_ShooterSubsystem.start(), m_ShooterSubsystem),
+							Commands.runOnce(() -> m_FeederSubsystem.start(), m_FeederSubsystem),
+							Commands.runOnce(() -> m_OmniSubsystem.start(), m_OmniSubsystem))
+		).onFalse(
+			Commands.parallel(
+				Commands.runOnce(() -> m_ShooterSubsystem.start(false), m_ShooterSubsystem),
+				Commands.runOnce(() -> m_FeederSubsystem.stop(), m_FeederSubsystem),
+				Commands.runOnce(() -> m_OmniSubsystem.stop(), m_OmniSubsystem)
+			)
+		);
 
-		SmartDashboard.putNumber("hoodPos", 0);
 		driveController.povRight().whileTrue(
-			Commands.run(() -> m_HoodSubsystem.setPos(SmartDashboard.getNumber("hoodPos", 0)), m_TurretSubsystem)
-		).onFalse(Commands.run(() -> m_HoodSubsystem.stop(), m_HoodSubsystem));
+			Commands.parallel(new FeedAllianceCommand(m_TurretSubsystem, m_HoodSubsystem, false),
+							Commands.runOnce(() -> m_ShooterSubsystem.start(), m_ShooterSubsystem),
+							Commands.runOnce(() -> m_FeederSubsystem.start(), m_FeederSubsystem),
+							Commands.runOnce(() -> m_OmniSubsystem.start(), m_OmniSubsystem))
+		).onFalse(
+			Commands.parallel(
+				Commands.runOnce(() -> m_ShooterSubsystem.start(false), m_ShooterSubsystem),
+				Commands.runOnce(() -> m_FeederSubsystem.stop(), m_FeederSubsystem),
+				Commands.runOnce(() -> m_OmniSubsystem.stop(), m_OmniSubsystem)
+			)
+		);
 			
 		driveController.povUp().whileTrue(
 			Commands.run(() -> m_ExtensionSubsystem.in(), m_ExtensionSubsystem)

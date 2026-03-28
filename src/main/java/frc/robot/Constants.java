@@ -6,7 +6,6 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
 
 public final class Constants {
-    // TODO make sure all values are correct
     public static final class DriveConstants {
         public static final Translation2d kFrontLeftLocation = new Translation2d(0.265, 0.265);
         public static final Translation2d kFrontRightLocation = new Translation2d(0.265, -0.265);
@@ -15,7 +14,7 @@ public final class Constants {
 
 		public static final double kTeleOpMaxAcceleration = 5;
 		public static final double kTeleOpMaxAngularAcceleration = 3;
-        public static final double kTeleOpMaxMetersPerSecond = 0.5;
+        public static final double kTeleOpMaxMetersPerSecond = 0.75;
         public static final double kTeleOpMaxAngularMetersPerSecond = 0.5;
         public static final double kTeleOpMinMetersPerSecond = 0.05;
         public static final double kTeleOpMinAngularMetersPerSecond = 0.05;

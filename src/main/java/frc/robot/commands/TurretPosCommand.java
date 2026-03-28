@@ -79,8 +79,8 @@ public class TurretPosCommand extends Command {
     private PhotonTrackedTarget getTarget() {
         List<PhotonTrackedTarget> curTargets = targets.get();
         Optional<PhotonTrackedTarget> target = curTargets.stream().filter((t) -> {
-                                                                return DriverStation.getAlliance().get() == Alliance.Red && Arrays.asList(0).contains(t.getFiducialId())
-                                                                    || DriverStation.getAlliance().get() == Alliance.Blue && Arrays.asList(0).contains(t.getFiducialId());
+                                                                return DriverStation.getAlliance().get() == Alliance.Red && Arrays.asList(5, 10, 2).contains(t.getFiducialId())
+                                                                    || DriverStation.getAlliance().get() == Alliance.Blue && Arrays.asList(18, 26, 21).contains(t.getFiducialId());
                                                             })
                                                     .findFirst();
         if (!target.isEmpty()) return target.get();
