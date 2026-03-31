@@ -10,11 +10,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.ConveyorSubsystem;
 // import frc.robot.subsystems.LEDSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Commands;
 import util.Elastic;
 
 public class Robot extends TimedRobot {
@@ -23,15 +20,12 @@ public class Robot extends TimedRobot {
 	private String gamedata = "";
 	private String alliance;
 	private double time;
-	private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
 	// private final LEDSubsystem ledSubsystem = new LEDSubsystem();
-	private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
 	private final RobotContainer m_robotContainer;
 
 	public Robot() {
-		// m_robotContainer = new RobotContainer(conveyorSubsystem, ledSubsystem, shooterSubsystem);
-		m_robotContainer = new RobotContainer(conveyorSubsystem, shooterSubsystem);
+		m_robotContainer = new RobotContainer();
 	}
 
 	@Override
@@ -53,10 +47,7 @@ public class Robot extends TimedRobot {
 	public void disabledPeriodic() {}
 
 	@Override
-	public void disabledExit() {
-		CommandScheduler.getInstance().schedule(Commands.runOnce(() -> conveyorSubsystem.start()));
-		CommandScheduler.getInstance().schedule(Commands.runOnce(() -> shooterSubsystem.start(false), shooterSubsystem));
-	}
+	public void disabledExit() {}
 
 	@Override
 	public void autonomousInit() {
