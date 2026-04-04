@@ -1,7 +1,6 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
 
@@ -69,49 +68,24 @@ public final class Constants {
         public static final double kDeadband = 0.05;
     }
 
-    public static final class ShooterConstants {
-        public static final int vout = 400;
-        public static final double g = 386.09;
+    public static final class OtherConstants {
+        public static final int kConveyorMotorId = 33;
+        public static final double kConveyorMotorSpeed = 0;
+
+        public static final int kDrawerMotorId = 32;
+        public static final double kDrawerMotorSpeed = 0;
+
+        public static final int kIntakeMotor1Id = 30;
+        public static final int kIntakeMotor2Id = 31;
+        public static final double kIntakeMotorSpeed = 0;
         
-        public static final int turretEncoderPort = 100;
-        public static final int hoodEncoderPort = 101;
-
-        public static final double turretGearRatio = 5 * 154 / 16;
-
-        public static final int turretMotorId = 41;
-        public static final int hoodMotorId = 46;
-
-        public static final double[] turretPID = {
-            0.6, 0, 0
-        };
-        public static final double[] hoodPID = {
-            0.4, 0.1, 0.03
-        };
-
-        public static final int[] shooterMotorIds = {31, 32};
-        public static final double shooterMotorSpeed = 0.6;
-
-        public static final Transform3d turretOffset = new Transform3d(-12.5, -8.7, 0, new Rotation3d(new Rotation2d(Math.PI / 2)));
-    }
-
-    public static final class IntakeConstants {
-        public static int omniMotorId = 44;
-        public static int intakeMotorId = 42;
-        public static int feederMotorId = 40;
-        public static int extensionMotorId = 43;
-        public static int conveyorPWMPort = 9;
-
-        public static double omniMotorSpeed = 0.15;
-        public static double intakeMotorSpeed = -0.65;
-        public static double feederMotorSpeed = -0.7;
-        public static double conveyorMotorSpeed = 0.75;
-
-        public static double[] extensionPID = {
-            0.035, 0, 0
-        };
-        public static int extensionEncoderPort = 105;
-        public static double extensionOut = 5;
-        public static double extensionIn = 0;
+        public static final int kKicker1MotorId = 34;
+        public static final int kKicker2MotorId = 35;
+        public static final double kKickerMotorSpeed = 0;
+        
+        public static final int kShooter1MotorId = 36;
+        public static final int kShooter2MotorId = 37;
+        public static final double kShooterMotorSpeed = 0;
     }
     
     public static final class PWMConstants {

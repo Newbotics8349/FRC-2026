@@ -19,30 +19,6 @@ public class RobotContainer {
 
 	private CommandXboxController driveController = new CommandXboxController(Constants.ControllerConstants.kDriverController);
 
-	// public RobotContainer(ConveyorSubsystem conveyorSubsystem, LEDSubsystem ledSubsystem, ShooterSubsystem shooterSubsystem) {
-	// 	m_SwerveSubsystem = new SwerveSubsystem();
-	// 	m_LedSubsystem = ledSubsystem;
-	// 	m_VisionSubsystem = new VisionSubsystem(m_LedSubsystem);
-	// 	m_FeederSubsystem = new FeederSubsystem();
-	// 	m_ShooterSubsystem = shooterSubsystem;
-	// 	m_OmniSubsystem = new OmniSubsystem();
-	// 	m_IntakeSubsystem = new IntakeSubsystem();
-	// 	m_ConveyorSubsystem = conveyorSubsystem;
-	// 	m_ExtensionSubsystem = new ExtensionSubsystem();
-	// 	m_TurretSubsystem = new TurretSubsystem();
-	// 	m_HoodSubsystem = new HoodSubsystem();
-
-	// 	m_AutoChooser.setDefaultOption("Test Auto", Commands.startEnd(() -> System.out.println("Test auto"), () -> System.out.println("end"), m_VisionSubsystem));
-	// 	m_AutoChooser.addOption("Test Auto 2", Commands.startEnd(() -> System.out.println("Second auto"), () -> System.out.println("end"), m_VisionSubsystem));
-	// 	SmartDashboard.putData("Auto Chooser", m_AutoChooser);
-
-	// 	m_AprilTagChooser.setDefaultOption("20", Constants.AprilTag.Test2);
-	// 	m_AprilTagChooser.addOption("21", Constants.AprilTag.Test);
-	// 	SmartDashboard.putData("April Tag Chooser", m_AprilTagChooser);
-
-	// 	configureBindings();
-	// }
-
 	public RobotContainer() {
 		m_SwerveSubsystem = new SwerveSubsystem();
 		// m_LedSubsystem = ledSubsystem;
