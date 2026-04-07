@@ -17,6 +17,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -125,5 +126,13 @@ public class SwerveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
+        m_odometry.update(
+            getRotation2d(), 
+            new SwerveModulePosition[] {
+                swerveModules[0].getOdometry(),
+                swerveModules[1].getOdometry(),
+                swerveModules[2].getOdometry(),
+                swerveModules[3].getOdometry(),
+            }); 
     }
 }

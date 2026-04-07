@@ -74,7 +74,7 @@ public class SwerveModule extends SubsystemBase {
     }
 
     public SwerveModulePosition getOdometry() {
-        return new SwerveModulePosition(driveMotor.getEncoder().getPosition() * Math.PI * Units.metersToInches(Constants.ModuleConstants.wheelDiameterInches) / Constants.ModuleConstants.driveGearRatio, getAngle());
+        return new SwerveModulePosition(driveMotor.getEncoder().getPosition() * Math.PI * Units.inchesToMeters(Constants.ModuleConstants.wheelDiameterInches) / Constants.ModuleConstants.driveGearRatio, getAngle());
     }
 
     @Override
