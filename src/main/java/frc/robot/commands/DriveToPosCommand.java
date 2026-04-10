@@ -5,11 +5,14 @@
 package frc.robot.commands;
 
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -20,11 +23,16 @@ public class DriveToPosCommand extends Command {
 	private PIDController pidMove = new PIDController(0.3, 0, 0);
 	private PIDController pidRot = new PIDController(0.3, 0, 0);
 	private Pose2d targetPose;
+	private Supplier<Double> x;
+	private Supplier<Double> y;
+	private Supplier<Double> rot;
 
-	public DriveToPosCommand(SwerveSubsystem swerveSubsystem, double x, double y, double rot) {
+	public DriveToPosCommand(SwerveSubsystem swerveSubsystem, Supplier<Double> x, Supplier<Double> y, Supplier<Double> rot) {
 		m_SwerveSubsystem = swerveSubsystem;
 
-		targetPose = new Pose2d(x, y, new Rotation2d(rot));
+		this.x = x;
+		this.y = y;
+		this.rot = rot;
 
 		// Use addRequirements() here to declare subsystem dependencies.
 		addRequirements(m_SwerveSubsystem);
@@ -32,12 +40,18 @@ public class DriveToPosCommand extends Command {
 
 	// Called when the command is initially scheduled.
 	@Override
-	public void initialize() {}
+	public void initialize() {
+		targetPose = m_SwerveSubsystem.getOdometry().plus(new Transform2d(x.get() * -1, y.get() * -1, new Rotation2d(rot.get())));
+	}
 
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
 		Transform2d target = targetPose.minus(m_SwerveSubsystem.getOdometry()).times(-1);
+
+		SmartDashboard.putString("Target", targetPose.toString());
+		SmartDashboard.putString("Odo", m_SwerveSubsystem.getOdometry().toString());
+		SmartDashboard.putString("Transform", target.toString());
 
 		double pidx = pidMove.calculate(target.getX());
 		double pidy = pidMove.calculate(target.getY());

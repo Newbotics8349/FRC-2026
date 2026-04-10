@@ -35,7 +35,6 @@ public class RobotContainer {
 			() -> driveController.button(Constants.ControllerConstants.kDriverFieldOrientedButtonId).getAsBoolean(), 
 			() -> driveController.getRawAxis(Constants.ControllerConstants.kDriverSlowAxis)));
 		
-		// driveController.y().whileTrue(new DriveToCommand(m_SwerveSubsystem, m_VisionSubsystem, () -> m_AprilTagChooser.getSelected()));
 		driveController.a().onTrue(m_SwerveSubsystem.zeroHeading());
 	}
 
