@@ -15,8 +15,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -36,8 +34,6 @@ public class SwerveSubsystem extends SubsystemBase {
         new SwerveModule(Constants.ModuleConstants.BackLeft.kDriveMotorId, Constants.ModuleConstants.BackLeft.kTurnMotorId, Constants.ModuleConstants.BackLeft.kTurnEncoderId, Constants.ModuleConstants.BackLeft.driveInverted), 
     };
 
-    private final StructArrayPublisher<SwerveModuleState> publisher;
-    private final StructArrayPublisher<ChassisSpeeds> publisher2;
     private ChassisSpeeds chassisSpeeds;
 
     /** Creates a new SwerveSubsystem. */
@@ -61,11 +57,6 @@ public class SwerveSubsystem extends SubsystemBase {
                 swerveModules[2].getOdometry(),
                 swerveModules[3].getOdometry(),
             });
-
-        publisher = NetworkTableInstance.getDefault()
-            .getStructArrayTopic("/SwerveStates", SwerveModuleState.struct).publish();
-        publisher2 = NetworkTableInstance.getDefault()
-            .getStructArrayTopic("/SwerveChassis", ChassisSpeeds.struct).publish();
     }
 
     public void setModuleStates(ChassisSpeeds chassisSpeeds) {
@@ -74,18 +65,7 @@ public class SwerveSubsystem extends SubsystemBase {
         SwerveModuleState[] moduleStates = m_kinematics.toSwerveModuleStates(chassisSpeeds);
         for (int i = 0; i < 4; i++) {
             swerveModules[i].setModuleState(moduleStates[i]);
-        }      
-        
-        publisher2.set(new ChassisSpeeds[] {
-            chassisSpeeds
-        });
-
-        publisher.set(new SwerveModuleState[] {
-            moduleStates[0],
-            moduleStates[1],
-            moduleStates[2],
-            moduleStates[3]
-        });
+        }
     }
 
     public ChassisSpeeds getChassisSpeeds() {

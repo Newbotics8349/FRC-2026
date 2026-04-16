@@ -92,7 +92,7 @@ public final class Constants {
         public static final int kLedPort = 0;
     }
     
-    public static final int numLeds = 60;
+    public static final int numLeds = 120;
 
     public static enum AprilTag {
         Hub1(8, new Transform3d(23.5, 0, 0, new Rotation3d(0, 0, Math.PI)));

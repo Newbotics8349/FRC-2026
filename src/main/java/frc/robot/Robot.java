@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-// import frc.robot.subsystems.LEDSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import util.Elastic;
 
@@ -20,7 +20,7 @@ public class Robot extends TimedRobot {
 	private String gamedata = "";
 	private String alliance;
 	private double time;
-	// private final LEDSubsystem ledSubsystem = new LEDSubsystem();
+	private final LEDSubsystem ledSubsystem = new LEDSubsystem();
 
 	private final RobotContainer m_robotContainer;
 
@@ -41,7 +41,9 @@ public class Robot extends TimedRobot {
 	}
 
 	@Override
-	public void disabledInit() {}
+	public void disabledInit() {
+		ledSubsystem.setColour(227, 135, 16);
+	}
 
 	@Override
 	public void disabledPeriodic() {}

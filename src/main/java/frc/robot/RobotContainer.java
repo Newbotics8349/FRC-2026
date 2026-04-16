@@ -8,20 +8,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveJoystickCommand;
-// import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class RobotContainer {
 	private final SendableChooser<Command> m_AutoChooser = new SendableChooser<>();
 
 	private final SwerveSubsystem m_SwerveSubsystem;
-	// private final LEDSubsystem m_LedSubsystem;
 
 	private CommandXboxController driveController = new CommandXboxController(Constants.ControllerConstants.kDriverController);
 
 	public RobotContainer() {
 		m_SwerveSubsystem = new SwerveSubsystem();
-		// m_LedSubsystem = ledSubsystem;
 
 		configureBindings();
 	}
